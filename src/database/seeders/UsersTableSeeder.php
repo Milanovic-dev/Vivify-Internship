@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
 
 class UsersTableSeeder extends Seeder
 {
@@ -21,7 +23,7 @@ class UsersTableSeeder extends Seeder
                     'name' => $faker->name,
                     'email' => $faker->email,
                     'address' => $faker->address,
-                    'password' => bycrypt('password')
+                    'password' => 'password'
                 ]);
         }
     }
