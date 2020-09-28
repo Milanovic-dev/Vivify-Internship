@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,22 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/test', function () {
-    return '200 Returned';
-})->middleware('age');
+Route::get('/test', [HomeController::class, 'testGet'])->middleware('age');
+Route::post('/test', [HomeController::class, 'testCreate']);
+Route::put('/test', [HomeController::class, 'testUpdate']);
+Route::patch('/test', [HomeController::class, 'testPatch']);
+Route::delete('/test', [HomeController::class, 'testGet']);
 
-Route::post('/test', function () {
-    return '201 Created';
-});
-
-Route::delete('/test', function() {
-    return '200 Deleted';
-});
-
-Route::put('/test', function () {
-    return '200 Updated';
-});
-
-Route::patch('/test', function () {
-    return '200 Patched';
-});
+Route::resource('posts', PostController::class);
