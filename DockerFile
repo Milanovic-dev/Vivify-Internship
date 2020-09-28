@@ -9,3 +9,4 @@ RUN set -ex && \
 	cd ../ && \
 	rm v1.0.zip && \
 	composer global require "squizlabs/php_codesniffer=3.*"
+    
