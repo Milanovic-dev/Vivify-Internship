@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 
 class PostController extends Controller
 {
+    public function __construct() 
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +30,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {    //
+    {    
         
     }
 
@@ -37,31 +42,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $user = auth()->user();
+        $validatedData = $request->validate([
+            'title' => ['required', 'string', 'max:30'],
+            'content' => ['required', 'string'],
+        ]);
 
-            if (!$user) {
-                return response()->json(['message' => 'user_not_found'], 404);
-            } else {
-                if($user->can('create', Post::class)) {
-                    $title = $request->input('title');
-                    $content = $request->input('content');
+        $user = auth()->user();
 
-                    $post = Post::create([
-                        'title' => $title,
-                        'content' => $content,
-                        'user_id' => $user->id
-                    ]);
+        $post = Post::create([
+            'title' => $validatedData['title'],
+            'content' => $validatedData['content'],
+            'user_id' => $user->id
+        ]);
 
-                    return response()->json(['created' => $post], 200);
-                }
-                else {
-                    return response()->json(['error' => 'You cannot create that resource'], 401);
-                }
-            }
-        } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
+        return response()->json(['created' => $post], 200);
     }
 
     /**
@@ -95,26 +89,16 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
-    {
-        try {
-            $user = auth()->user();
-
-            if (!$user) {
-                return response()->json(['message' => 'user_not_found'], 404);
-            } else {
-                if($user->can('update', $post)) {
-                    $post->title = $request->input('title');
-                    $post->content = $request->input('title');
-                    $post->save();
-                    return response()->json(['updated' => $post], 200);
-                }
-                else {
-                    return response()->json(['error' => 'You cannot update that resource'], 401);
-                }
-            }
-        } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
+    {   
+        $validatedData = $request->validate([
+            'title' => ['required', 'string', 'max:30'],
+            'content' => ['required', 'string'],
+        ]);
+        
+        $post->title = $validatedData['title'];
+        $post->content = $validatedData['content'];
+        $post->save();
+        return response()->json(['updated' => $post], 200);
     }
 
     /**
@@ -125,22 +109,7 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Post $post)
     {
-        try {
-            $user = auth()->user();
-
-            if (!$user) {
-                return response()->json(['message' => 'user_not_found'], 404);
-            } else {
-                if($user->can('delete', $post)) {
-                    Post::where('id', $post->id)->delete();
-                    return response()->json(['deleted_id' => $post->id], 200);
-                }
-                else {
-                    return response()->json(['error' => 'You cannot delete that resource'], 401);
-                }
-            }
-        } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
-        }
+        Post::where('id', $post->id)->delete();
+        return response()->json(['deleted_id' => $post->id], 200);
     }
 }
