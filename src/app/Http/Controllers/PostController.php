@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
 
 class PostController extends Controller
