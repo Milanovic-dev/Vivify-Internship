@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
@@ -40,12 +41,9 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        $validatedData = $request->validate([
-            'title' => ['required', 'string', 'max:30'],
-            'content' => ['required', 'string'],
-        ]);
+        $validatedData = $request->validated();
 
         $user = auth()->user();
 
@@ -88,12 +86,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {   
-        $validatedData = $request->validate([
-            'title' => ['required', 'string', 'max:30'],
-            'content' => ['required', 'string'],
-        ]);
+        $validatedData = $request->validated();
         
         $post->title = $validatedData['title'];
         $post->content = $validatedData['content'];
