@@ -85,8 +85,11 @@ class AuthController extends Controller
 
     public function invalidate(Request $request) {
         $isForever = $request->input('forever');
-        if($isForever == null) $isForever = false;
-        try{
+        if($isForever === null) {
+            $isForever = false;
+        } 
+        
+        try { 
             auth()->invalidate($isForever);
             return response(200); 
         } catch (Exception $e) {

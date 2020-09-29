@@ -19,7 +19,7 @@ class JWTSecure
      */
     public function handle(Request $request, Closure $next)
     {
-        try{
+        try {
             JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
             return response()->json(['status' => '401 Unauthorized']);
