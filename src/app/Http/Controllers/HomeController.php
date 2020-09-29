@@ -6,29 +6,23 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    //
-
-    public function testGet() {
-        return '200 Returned';
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
-    public function testCreate() {
-        return '201 Created';
-    }
-
-    public function testUpdate() {
-        return '200 Updated';
-    }
-
-    public function testPatch() {
-        return '200 Patched';
-    }
-
-    public function testDelete() {
-        return '200 Deleted';
-    }
-
-    public function hello() {
-        return view('hello')->with('first_name', 'Nikola');
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
     }
 }
