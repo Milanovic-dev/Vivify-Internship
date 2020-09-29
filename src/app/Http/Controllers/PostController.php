@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -13,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return 'Test';
+        return Post::all();
     }
 
     /**
@@ -46,6 +47,9 @@ class PostController extends Controller
     public function show($id)
     {
         //
+        $posts = Post::where('user_id', $id)->get();
+
+        return $posts;
     }
 
     /**
