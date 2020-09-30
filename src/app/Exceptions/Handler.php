@@ -12,7 +12,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
     ];
 
     /**
