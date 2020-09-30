@@ -29,7 +29,7 @@ Route::put('/test', [HomeController::class, 'testUpdate']);
 Route::patch('/test', [HomeController::class, 'testPatch']);
 Route::delete('/test', [HomeController::class, 'testGet']);
 
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->middleware(('jwtsecure'));
 
 Route::group([
 

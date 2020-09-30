@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class PostController extends Controller
 {
+    public function __construct() 
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +30,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request)
+    {    
+        
     }
 
     /**
@@ -33,9 +41,19 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $user = auth()->user();
+
+        $post = Post::create([
+            'title' => $validatedData['title'],
+            'content' => $validatedData['content'],
+            'user_id' => $user->id
+        ]);
+
+        return response()->json(['created' => $post], 200);
     }
 
     /**
@@ -68,9 +86,14 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(StorePostRequest $request, Post $post)
+    {   
+        $validatedData = $request->validated();
+        
+        $post->title = $validatedData['title'];
+        $post->content = $validatedData['content'];
+        $post->save();
+        return response()->json(['updated' => $post], 200);
     }
 
     /**
@@ -79,8 +102,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Post $post)
     {
-        //
+        Post::where('id', $post->id)->delete();
+        return response()->json(['deleted_id' => $post->id], 200);
     }
 }

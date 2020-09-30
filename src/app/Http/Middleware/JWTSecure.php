@@ -6,7 +6,6 @@ use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Providers\JWT\Lcobucci;
 
 class JWTSecure
 {

@@ -16,7 +16,7 @@ class PostsTableSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for($i = 1 ; $i <= 50 ; $i++) {
+        for($i = 1 ; $i <= 2 ; $i++) {
             DB::table('posts')
                 ->insert([
                     'title' => $faker->title,
