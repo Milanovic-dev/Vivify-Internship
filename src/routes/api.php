@@ -50,5 +50,5 @@ Route::get('/open', [DataController::class, 'open']);
 Route::get('/closed', [DataController::class, 'closed'])->middleware('jwtsecure');
 
 Route::get('/exception', function(){
-    throw new App\Exceptions\CustomException(); // should return "foo":"bar"
+    throw new App\Exceptions\CustomException();
 });

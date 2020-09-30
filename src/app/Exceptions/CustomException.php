@@ -6,7 +6,7 @@ use Exception;
 
 class CustomException extends Exception
 {
-    public function render($request) {
+    public function render() {
         return ['foo' => 'bar'];
     }
 }
